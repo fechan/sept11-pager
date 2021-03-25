@@ -14,8 +14,20 @@ import re
 import csv
 import json
 
-LOG_FILE_PATH = "messages_2001_09_11-08_50_2001_09_11-08_54.txt"
-FIELDS = ["date", "time", "network", "capcode", "pocsag_mode", "pocsag_rate", "mode", "content"]
+LOG_FILE_PATH = "messages_all.txt"
+
+FIELDS = [
+    "date",
+    "time",
+    "network",
+    "capcode",
+    "pocsag_mode",
+    "pocsag_rate",
+    "function",
+    "mode",
+    "content"
+    ]
+PAGER_PROTOCOLS = ["ALPHA", "ST NUM", "SH/TONE", "BINARY", "SECURE"]
 
 pager_log_file = open(LOG_FILE_PATH)
 pager_log = pager_log_file.read().splitlines()
