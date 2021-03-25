@@ -8,7 +8,7 @@ Time: hour: min: sec
 Network: Skytel / Arch / metrocall
 Capcode: [########] (the address of the pager, or pagers the message is being sent to)
 Function: A / B / C / D (POCSAG 0/1/2/3)
-Protocol: ST NUM (numeric), SH / TONE (tone), ALPHA (alphanumeric) 
+Protocol: ST NUM (numeric), SH / TONE (tone), ALPHA (alphanumeric) / BINARY / SECURE
 """
 import re
 import csv
