@@ -8,7 +8,7 @@ Time: hour: min: sec
 Network: Skytel / Arch / metrocall
 Capcode: [########] (the address of the pager, or pagers the message is being sent to)
 Function: A / B / C / D (POCSAG 0/1/2/3)
-Protocol: ST NUM (numeric), SH / TONE (tone), ALPHA (alphanumeric) / BINARY / SECURE
+Mode: ST NUM (numeric), SH / TONE (tone), ALPHA (alphanumeric) / BINARY / SECURE
 """
 import re
 import csv
@@ -27,7 +27,7 @@ FIELDS = [
     "mode",
     "content"
     ]
-PAGER_PROTOCOLS = ["ALPHA", "ST NUM", "SH/TONE", "BINARY", "SECURE"]
+PAGER_MODES = ["ALPHA", "ST NUM", "SF NUM", "SH/TONE", "BINARY", "SECURE"]
 
 pager_log_file = open(LOG_FILE_PATH)
 pager_log = pager_log_file.read().splitlines()
@@ -49,8 +49,8 @@ for raw_message in pager_log:
         message["pocsag_rate"] = message_parts[5]
         message["content"] = raw_message[raw_message.find(message_parts[5]) + len(message_parts[5]):] # Extract everything after rate string
     else:
-        pager_function = message_parts[4]
-        if message_parts[5] == "ST":
+        message["function"] = message_parts[4]
+        if message_parts[5] in ["ST", "SF"]:
             message["mode"] = message_parts[5] + " " + message_parts[6]
             message["content"] = raw_message[raw_message.find(message_parts[6]) + len(message_parts[6]):] # Extract everything after mode string
         else:
@@ -59,7 +59,7 @@ for raw_message in pager_log:
     message["content"] = message["content"].strip()
 
     # Do some validation
-    if (("mode" in message and message["mode"] not in PAGER_PROTOCOLS) or
+    if (("mode" in message and message["mode"] not in PAGER_MODES) or
             ("pocsag_rate" in message and message["pocsag_rate"] not in ["512", "1200", "2400"])):
         failed_to_parse.append(raw_message)
 
