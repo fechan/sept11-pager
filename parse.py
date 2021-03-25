@@ -59,7 +59,7 @@ for raw_message in pager_log:
     message["content"] = message["content"].strip()
 
     # Do some validation
-    if (("mode" in message and message["mode"] not in ["ALPHA", "ST NUM", "SH/TONE"]) or
+    if (("mode" in message and message["mode"] not in PAGER_PROTOCOLS) or
             ("pocsag_rate" in message and message["pocsag_rate"] not in ["512", "1200", "2400"])):
         failed_to_parse.append(raw_message)
 
