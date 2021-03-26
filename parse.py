@@ -52,6 +52,11 @@ for raw_message in pager_log:
         message["pocsag_mode"] = message_parts[4]
         message["pocsag_rate"] = message_parts[5]
         message["content"] = raw_message[raw_message.find(message_parts[5]) + len(message_parts[5]):] # Extract everything after rate string
+    elif re.match("[0-9]{1,2}:[0-9]{2}:[0-9]{2}", message_parts[4]): # If the message has a second timestamp
+        message["time2"] = f"{message_parts[4]} {message_parts[5]}"
+        message["function"] = message_parts[6]
+        message["mode"] = message_parts[7] # For some reason, this is always ALPHA
+        message["content"] = raw_message[raw_message.find(message_parts[7]) + len(message_parts[7]):] # Extract everything after mode string
     else:
         message["function"] = message_parts[4]
         if message_parts[5] in ["ST", "SF"]:
