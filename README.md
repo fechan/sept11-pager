@@ -1,5 +1,5 @@
 # sept11-pager
-This repository contains a CSV and JSON version of the all_messages pager logs provided in the [9/11 pager logs](https://911.wikileaks.org/files/index.html) released by Wikileaks in 2009. These logs contain pager messages from 3 AM EDT on September 11, 2001 to 3 AM the following day. I reccommend watching [this short YouTube documentary](https://www.youtube.com/watch?&v=inigBzDU8mw) about the 9/11 pager leaks as a primer to give this data some context.
+This repository contains a CSV and JSON version of the all_messages pager log provided in the [9/11 pager leaks](https://911.wikileaks.org/files/index.html) released by Wikileaks in 2009. These logs contain pager messages from 3 AM EDT on September 11, 2001 to 3 AM the following day. I reccommend watching [this short YouTube documentary](https://www.youtube.com/watch?&v=inigBzDU8mw) about the 9/11 pager leaks as a primer to give this data some context.
 
 I had to do a bit of guesswork with these field names, since I do not have a comprehensive reference and I have never used a pager myself. If you have ideas or clarification, please add your suggestion in the repo's GitHub Issues page.
 
