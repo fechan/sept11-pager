@@ -71,8 +71,8 @@ for raw_message in pager_log:
     if (("mode" in message and message["mode"] not in PAGER_MODES) or
             ("pocsag_rate" in message and message["pocsag_rate"] not in ["512", "1200", "2400"])):
         failed_to_parse.append(raw_message)
-
-    parsed_messages.append(message)
+    else:
+        parsed_messages.append(message)
 print("Failed to parse the following messages:\n", "\n\n".join(failed_to_parse))
 
 with open(LOG_FILE_PATH + ".json", "w") as jsonfile:
