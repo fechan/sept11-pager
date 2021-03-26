@@ -25,6 +25,7 @@ FIELDS = [
     "time",
     "network",
     "capcode",
+    "time2",
     "pocsag_mode",
     "pocsag_rate",
     "function",
