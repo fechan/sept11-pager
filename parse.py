@@ -8,7 +8,11 @@ Time: hour: min: sec
 Network: Skytel / Arch / metrocall
 Capcode: [########] (the address of the pager, or pagers the message is being sent to)
 Function: A / B / C / D (POCSAG 0/1/2/3)
-Mode: ST NUM (numeric), SH / TONE (tone), ALPHA (alphanumeric) / BINARY / SECURE
+Mode: ST NUM (numeric), AF NUM (numeric), SH/TONE (tone), ALPHA (alphanumeric), BINARY, SECURE
+
+Some pager transmissions contain multiple timestamps. The second one will contain
+hour:minute:second AM/PM, and will be approximately 3 hours behind the first one.
+I don't know what this second time represents.
 """
 import re
 import csv
