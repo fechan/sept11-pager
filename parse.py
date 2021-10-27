@@ -14,13 +14,16 @@ Some pager transmissions contain multiple timestamps. The second one will contai
 hour:minute:second AM/PM, and will be approximately 3 hours behind the first one.
 I don't know what this second time represents.
 """
+from ast import parse
 import re
 import csv
 import json
 
 LOG_FILE_PATH = "messages_all.txt"
+HOTFIX_MSG_173961 = True # Enable hotfix for mangled message 173961. See README.md for details.
 
 FIELDS = [
+    "msg_no",
     "date",
     "time",
     "network",
@@ -41,9 +44,10 @@ pager_log_file.close()
 failed_to_parse = []
 parsed_messages = []
 
-for raw_message in pager_log:
+for index, raw_message in enumerate(pager_log):
     message_parts = raw_message.split()
     message = {
+        "msg_no": str(index),
         "date": message_parts[0],
         "time": message_parts[1],
         "network": message_parts[2],
@@ -71,10 +75,34 @@ for raw_message in pager_log:
     # Do some validation
     if (("mode" in message and message["mode"] not in PAGER_MODES) or
             ("pocsag_rate" in message and message["pocsag_rate"] not in ["512", "1200", "2400"])):
-        failed_to_parse.append(raw_message)
+        failed_to_parse.append(f"Message {index}: {raw_message}")
     else:
         parsed_messages.append(message)
 print("Failed to parse the following messages:\n", "\n\n".join(failed_to_parse))
+
+if HOTFIX_MSG_173961:
+    parsed_messages.insert(173961, {
+        "msg_no": "173961",
+        "date": "2001-09-11",
+        "time": "12:17:05",
+        "network": "Skytel",
+        "capcode": "004087318",
+        "time2": "9:17:05 AM",
+        "function": "B",
+        "mode": "ST NUM",
+        "content": "660-665-6372 (6"
+    })
+
+    parsed_messages.append({
+        "msg_no": str(len(parsed_messages)),
+        "date": "2001-09-?11",
+        "time": "12:17:05?",
+        "network": "UNKNOWN",
+        "capcode": "1060433582",
+        "function": "D",
+        "mode": "ALPHA",
+        "content": "6.eing (Seal Beach) 52-880 UPDATE,TT#: (Info) 1973461, File server FIL-SC1-42 down 2:00pm 09/10 for emer.maint.affecting 400 users. Server not expected back online until 08:00 PDT 09/12.Per R.Johnson 562-982-6457 Dan(800) 278-1769"  
+    })
 
 with open(LOG_FILE_PATH + ".json", "w") as jsonfile:
     json.dump(parsed_messages, jsonfile)

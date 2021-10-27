@@ -1,3 +1,4 @@
 .RData
 .Rhistory
 *.7z
+.venv/
