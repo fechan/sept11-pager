@@ -2,3 +2,4 @@
 .Rhistory
 *.7z
 .venv/
+scratch/
