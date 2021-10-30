@@ -1,3 +1,9 @@
+"""
+filter_alpa.py -- filters out pager messages that are not ALPHA mode and which contain
+at least one letter. This leaves you with messages that are more likely to have readable
+content in them.
+"""
+
 import csv
 import re
 
