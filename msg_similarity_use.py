@@ -2,7 +2,6 @@ import csv
 import pickle
 import os
 import os.path
-import time
 from sklearn.metrics.pairwise import cosine_similarity
 import tensorflow_hub as hub
 
