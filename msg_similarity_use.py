@@ -60,13 +60,13 @@ for message in MESSAGES:
 
     print(f"Base message {message[0]}: {message[10]}")
     embedding = get_embedding_with_caching(message[0], message[10])
-    have_tried_exact_match = False # Whether we've already tried to find an exact matches for this base message
+    have_tried_exact_match = False # whether we've already tried to find an exact match for this base message
 
     for other_message in MESSAGES:
         if (message[0] == other_message[0]) or (other_message[0] in deemed_similar): continue
 
-        # If there's already been a match, it's more likely that there are
-        # matches that are exactly the same
+        # If there's already been an exact match, it's more likely that there are
+        # even more exact metches
         if (not have_tried_exact_match) and (message[10] == other_message[10]):
             for exact_msg in try_exact_match(message[0], message[10]):
                 add_to_similarity_family(message[0], exact_msg)
