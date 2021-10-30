@@ -68,9 +68,10 @@ for message in MESSAGES:
         # If there's already been a match, it's more likely that there are
         # matches that are exactly the same
         if (not have_tried_exact_match) and (message[10] == other_message[10]):
-            for msg in try_exact_match(message[0], message[10]):
-                add_to_similarity_family(message[0], msg)
-                print(f"Exact message {other_message[0]}: {other_message[10]}")
+            for exact_msg in try_exact_match(message[0], message[10]):
+                add_to_similarity_family(message[0], exact_msg)
+                deemed_similar.add(exact_msg)
+                print(f"Exact message {exact_msg}: {other_message[10]}")
             add_to_similarity_family(message[0], message[0])
             have_tried_exact_match = True
             continue # don't compute cosine similarity for other_message since we know it's the same
