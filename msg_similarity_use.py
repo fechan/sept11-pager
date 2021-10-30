@@ -8,12 +8,23 @@ import tensorflow_hub as hub
 MESSAGES = list(csv.reader(open("messages_all.txt.alphaonly.csv", "r")))
 SCRATCH_DIR = "./scratch"
 
-model = hub.load("https://tfhub.dev/google/universal-sentence-encoder/4")
-
 deemed_similar = set() # message numbers of all messages already deemed similar to another message
 similarity_families = {} # sets of messages similar to a base message, INCLUDING itself
 
-similarity_family_file = open("alpha_similarity_families.txt", "w")
+# If script is cancelled prematurely, you can start where you left off
+# You MUST delete the file if you change the number and/or content of the input messages
+# changes, because base message similarity calculation will be skipped if it's already in
+# here, and none of the additional messages will be added to the similarity family
+if os.path.isfile("alpha_similarity_families.txt"):
+    with open("alpha_similarity_families.txt", "r") as f:
+        for family in f.readlines():
+            base_msg, similar_msgs = family.split("\t")
+            similar_msgs = set([x.strip() for x in similar_msgs.split(",")])
+            deemed_similar.update(similar_msgs)
+            similarity_families[base_msg] = set(similar_msgs)
+
+model = hub.load("https://tfhub.dev/google/universal-sentence-encoder/4")
+similarity_family_file = open("alpha_similarity_families.txt", "a")
 
 def try_exact_match(base_msg_no, text):
     """Return a list of message numbers whose message contents match the given text exactly
@@ -59,7 +70,7 @@ for message in MESSAGES:
         if (not have_tried_exact_match) and (message[10] == other_message[10]):
             for msg in try_exact_match(message[0], message[10]):
                 add_to_similarity_family(message[0], msg)
-                print(f"Similar message {other_message[0]}: {other_message[10]}")
+                print(f"Exact message {other_message[0]}: {other_message[10]}")
             add_to_similarity_family(message[0], message[0])
             have_tried_exact_match = True
             continue # don't compute cosine similarity for other_message since we know it's the same
