@@ -6,7 +6,7 @@ import time
 from sklearn.metrics.pairwise import cosine_similarity
 import tensorflow_hub as hub
 
-MESSAGES = list(csv.reader(open("messages_all.txt.alphaonly.100.csv", "r")))
+MESSAGES = list(csv.reader(open("messages_all.txt.alphaonly.csv", "r")))
 SCRATCH_DIR = "./scratch"
 
 model = hub.load("https://tfhub.dev/google/universal-sentence-encoder/4")
