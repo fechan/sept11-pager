@@ -6,3 +6,5 @@ scratch/
 scratch_arrays/
 results/
 .ipynb_checkpoints/
+messages_all.txt
+messages_all.txt.alphaonly.100.csv
